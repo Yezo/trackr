@@ -1,16 +1,21 @@
 import { useState } from "react"
 import Button from "react-bootstrap/Button"
-import Modal from "react-bootstrap/Modal"
 import JobForm from "./components/JobForm/JobForm"
 import { IJobListing } from "./types/JobListingType"
 
 function App() {
   const [jobs, setJobs] = useState<IJobListing | null>(null)
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   return (
-    <div className="modal show" style={{ display: "block", position: "initial" }}>
-      <JobForm />
-    </div>
+    <>
+      <Button variant="primary" onClick={handleShow}>
+        Add a job
+      </Button>
+      <JobForm show={show} handleClose={handleClose} />
+    </>
   )
 }
 

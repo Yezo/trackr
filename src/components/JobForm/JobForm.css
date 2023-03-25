@@ -1,6 +1,14 @@
-.form-container {
-  max-width: 20rem;
+.form-group {
+  max-width: 15rem;
+  margin-bottom: 0.5rem;
 }
 .form-label {
   font-weight: 500;
+}
+
+.form-footer {
+  min-width: 100%;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
 }
