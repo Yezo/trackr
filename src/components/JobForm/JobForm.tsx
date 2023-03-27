@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal"
 import "./JobForm.css"
 import { useState } from "react"
 import { IJobListing } from "../../types/JobListingType"
+import { saveJobs } from "../../storage/Storage"
 type Props = {
   show: boolean
   handleClose: () => void
@@ -36,6 +37,7 @@ export default function JobForm({ show, handleClose, setJobs, jobs }: Props) {
     let checkEmpty = Object.values(form).filter((item) => item.length <= 0)
     if (checkEmpty.length === 0) {
       setJobs([...jobs, form])
+      saveJobs([...jobs, form])
       setForm({
         position: "",
         company: "",
