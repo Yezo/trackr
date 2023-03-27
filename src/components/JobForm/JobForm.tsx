@@ -3,12 +3,15 @@ import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import "./JobForm.css"
 import { useState } from "react"
+import { IJobListing } from "../../types/JobListingType"
 type Props = {
   show: boolean
   handleClose: () => void
+  setJobs: React.Dispatch<React.SetStateAction<IJobListing[]>>
+  jobs: IJobListing[]
 }
 
-export default function JobForm({ show, handleClose }: Props) {
+export default function JobForm({ show, handleClose, setJobs, jobs }: Props) {
   const [validated, setValidated] = useState(false)
   const [form, setForm] = useState({
     position: "",
@@ -31,7 +34,18 @@ export default function JobForm({ show, handleClose }: Props) {
 
     //Check if there are any fields that are empty, if not, submit and close modal
     let checkEmpty = Object.values(form).filter((item) => item.length <= 0)
-    if (checkEmpty.length === 0) handleClose()
+    if (checkEmpty.length === 0) {
+      setJobs([...jobs, form])
+      setForm({
+        position: "",
+        company: "",
+        location: "",
+        remote: "Yes",
+        status: "Pending",
+      })
+      handleClose()
+      setValidated(false)
+    }
   }
 
   const setField = (field: any, value: any) => {

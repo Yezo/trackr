@@ -2,8 +2,6 @@ export interface IJobListing {
   position: string
   company: string
   location: string
-  remote?: boolean
+  remote: string
   status: string
-  notes: string
-  date: string
 }

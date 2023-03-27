@@ -1,10 +1,10 @@
 import { useState } from "react"
+import { IJobListing } from "./types/JobListingType"
 import Button from "react-bootstrap/Button"
 import JobForm from "./components/JobForm/JobForm"
-import { IJobListing } from "./types/JobListingType"
 
 function App() {
-  const [jobs, setJobs] = useState<IJobListing | null>(null)
+  const [jobs, setJobs] = useState<IJobListing[]>([])
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -14,7 +14,7 @@ function App() {
       <Button variant="primary" onClick={handleShow}>
         Add a job
       </Button>
-      <JobForm show={show} handleClose={handleClose} />
+      <JobForm show={show} handleClose={handleClose} setJobs={setJobs} jobs={jobs} />
     </>
   )
 }
