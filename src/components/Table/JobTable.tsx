@@ -1,13 +1,47 @@
 import { IJobListing } from "../../types/JobListingType"
+import Card from "react-bootstrap/Card"
+import JobCard from "./JobCard"
 import "./JobTable.css"
+import EditJob from "../EditJob.tsx/EditJob"
 
-type Props = { jobs: IJobListing[] }
+type Props = {
+  setJobs: React.Dispatch<React.SetStateAction<IJobListing[]>>
+  jobs: IJobListing[]
+  toggleEditPanel: boolean
+  setToggleEditPanel: React.Dispatch<React.SetStateAction<boolean>>
+  form: IJobListing
+  setForm: React.Dispatch<React.SetStateAction<IJobListing>>
+}
 
-export default function JobTable({ jobs }: Props) {
+export default function JobTable({
+  jobs,
+  setJobs,
+  toggleEditPanel,
+  setToggleEditPanel,
+  form,
+  setForm,
+}: Props) {
+  const handleEdit = (id: string) => {
+    let contact = jobs.filter((item) => item.id === id)
+    console.log(contact[0])
+    setForm(contact[0])
+    setToggleEditPanel(!toggleEditPanel)
+  }
   return (
     <>
       {jobs ? (
-        jobs.map((item) => <div key={item.company}>{item.company}</div>)
+        jobs.map(({ id, position, company, location, remote, status }) => (
+          <Card style={{ width: "18rem" }}>
+            <Card.Body>
+              <Card.Title>{position}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">{company}</Card.Subtitle>
+              <Card.Text>
+                {location} {remote} {status}
+              </Card.Text>
+              <div onClick={() => handleEdit(id)}>Edit</div>
+            </Card.Body>
+          </Card>
+        ))
       ) : (
         <EmptyWarningMessage />
       )}

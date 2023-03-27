@@ -1,27 +1,29 @@
+import React, { useState } from "react"
+import { IJobListing } from "../../types/JobListingType"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
-import "./JobForm.css"
-import { useState } from "react"
-import { IJobListing } from "../../types/JobListingType"
 import { saveJobs } from "../../storage/Storage"
+
 type Props = {
-  show: boolean
-  handleClose: () => void
+  toggleEditPanel: boolean
+  setToggleEditPanel: React.Dispatch<React.SetStateAction<boolean>>
   setJobs: React.Dispatch<React.SetStateAction<IJobListing[]>>
   jobs: IJobListing[]
+  form: IJobListing
+  setForm: React.Dispatch<React.SetStateAction<IJobListing>>
 }
 
-export default function JobForm({ show, handleClose, setJobs, jobs }: Props) {
+export default function EditJob({
+  jobs,
+  setJobs,
+  toggleEditPanel,
+  setToggleEditPanel,
+  form,
+  setForm,
+}: Props) {
   const [validated, setValidated] = useState(false)
-  const [form, setForm] = useState({
-    position: "",
-    company: "",
-    location: "",
-    remote: "Yes",
-    status: "Pending",
-  })
-
+  const [error, setError] = useState(false)
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -31,22 +33,29 @@ export default function JobForm({ show, handleClose, setJobs, jobs }: Props) {
       e.preventDefault()
       e.stopPropagation()
     }
-    setValidated(true)
 
-    //Check if there are any fields that are empty, if not, submit and close modal
+    // test
+    const index = jobs.findIndex((x) => x.id === form.id)
+    if (index < 0) {
+      return
+    }
+    const existingByName = jobs.find(
+      (x) => x.id.toLowerCase() === form.id.toLowerCase() && x.id !== form.id
+    )
+    if (existingByName) {
+      return
+    }
+    const companyAlreadyExists = jobs.find(
+      (x) => x.company.toLowerCase() === form.company.toLowerCase()
+    )
+    companyAlreadyExists && setError(true)
+
     let checkEmpty = Object.values(form).filter((item) => item.length <= 0)
-    if (checkEmpty.length === 0) {
-      setJobs([...jobs, form])
-      saveJobs([...jobs, form])
-      setForm({
-        position: "",
-        company: "",
-        location: "",
-        remote: "Yes",
-        status: "Pending",
-      })
-      handleClose()
+    if (checkEmpty.length === 0 && !companyAlreadyExists) {
+      jobs[index] = form
+      saveJobs(jobs)
       setValidated(false)
+      setToggleEditPanel(false)
     }
   }
 
@@ -55,9 +64,9 @@ export default function JobForm({ show, handleClose, setJobs, jobs }: Props) {
   }
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={toggleEditPanel} onHide={() => setToggleEditPanel(false)}>
       <Modal.Header closeButton>
-        <Modal.Title>Add a job listing</Modal.Title>
+        <Modal.Title>Edit a job listing</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="container">
@@ -82,8 +91,12 @@ export default function JobForm({ show, handleClose, setJobs, jobs }: Props) {
                 placeholder="e.g: Facebook..."
                 required
                 value={form.company}
+                isInvalid={error}
                 onChange={(e) => setField("company", e.target.value)}
               />
+              <Form.Control.Feedback type="invalid">
+                This company already exists.
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="form-group" controlId="location">
@@ -128,7 +141,7 @@ export default function JobForm({ show, handleClose, setJobs, jobs }: Props) {
               </Form.Select>
             </Form.Group>
             <div className="form-footer">
-              <Button variant="secondary" onClick={handleClose}>
+              <Button variant="secondary" onClick={() => setToggleEditPanel(false)}>
                 Close
               </Button>
               <Button variant="primary" type="submit">
