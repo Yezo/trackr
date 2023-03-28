@@ -1,8 +1,7 @@
 import { IJobListing } from "../../types/JobListingType"
 import Card from "react-bootstrap/Card"
-import JobCard from "./JobCard"
+import Button from "react-bootstrap/Button"
 import "./JobTable.css"
-import EditJob from "../EditJob.tsx/EditJob"
 
 type Props = {
   setJobs: React.Dispatch<React.SetStateAction<IJobListing[]>>
@@ -38,7 +37,13 @@ export default function JobTable({
               <Card.Text>
                 {location} {remote} {status}
               </Card.Text>
-              <div onClick={() => handleEdit(id)}>Edit</div>
+
+              <Button className="btn-primary" onClick={() => handleEdit(id)}>
+                Edit
+              </Button>
+              <Button className="btn-primary" onClick={() => handleEdit(id)}>
+                Delete
+              </Button>
             </Card.Body>
           </Card>
         ))

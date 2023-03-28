@@ -8,7 +8,6 @@ import { saveJobs } from "../../storage/Storage"
 type Props = {
   toggleEditPanel: boolean
   setToggleEditPanel: React.Dispatch<React.SetStateAction<boolean>>
-  setJobs: React.Dispatch<React.SetStateAction<IJobListing[]>>
   jobs: IJobListing[]
   form: IJobListing
   setForm: React.Dispatch<React.SetStateAction<IJobListing>>
@@ -16,7 +15,6 @@ type Props = {
 
 export default function EditJob({
   jobs,
-  setJobs,
   toggleEditPanel,
   setToggleEditPanel,
   form,
