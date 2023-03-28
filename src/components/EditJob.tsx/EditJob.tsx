@@ -43,13 +43,9 @@ export default function EditJob({
     if (existingByName) {
       return
     }
-    const companyAlreadyExists = jobs.find(
-      (x) => x.company.toLowerCase() === form.company.toLowerCase()
-    )
-    companyAlreadyExists && setError(true)
 
     let checkEmpty = Object.values(form).filter((item) => item.length <= 0)
-    if (checkEmpty.length === 0 && !companyAlreadyExists) {
+    if (checkEmpty.length === 0) {
       jobs[index] = form
       saveJobs(jobs)
       setValidated(false)

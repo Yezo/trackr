@@ -2,6 +2,8 @@ import { IJobListing } from "../../types/JobListingType"
 import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
 import "./JobTable.css"
+import { getJobs, saveJobs } from "../../storage/Storage"
+import { useEffect } from "react"
 
 type Props = {
   setJobs: React.Dispatch<React.SetStateAction<IJobListing[]>>
@@ -21,11 +23,28 @@ export default function JobTable({
   setForm,
 }: Props) {
   const handleEdit = (id: string) => {
-    let contact = jobs.filter((item) => item.id === id)
-    console.log(contact[0])
-    setForm(contact[0])
+    let job = jobs.filter((item) => item.id === id)
+    console.log(job[0])
+    setForm(job[0])
     setToggleEditPanel(!toggleEditPanel)
   }
+
+  const handleRemove = (id: string) => {
+    let job = jobs.filter((item) => item.id === id)
+    const index = jobs.findIndex((x) => x.id === id)
+    console.log(job[0])
+    if (index < 0) {
+      return
+    }
+    jobs.splice(index, 1)
+    saveJobs([...jobs])
+  }
+
+  // useEffect(() => {
+  //   const list = getJobs()
+  //   setJobs(list)
+  // }, [])
+
   return (
     <>
       {jobs ? (
@@ -41,7 +60,7 @@ export default function JobTable({
               <Button className="btn-primary" onClick={() => handleEdit(id)}>
                 Edit
               </Button>
-              <Button className="btn-primary" onClick={() => handleEdit(id)}>
+              <Button className="btn-primary" onClick={() => handleRemove(id)}>
                 Delete
               </Button>
             </Card.Body>

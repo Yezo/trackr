@@ -23,9 +23,12 @@ function App() {
 
   //Set the new list of letters to local storage whenever a user memorizes a letter
   useEffect(() => {
-    const alphabets = getJobs()
-    setJobs(alphabets)
-  }, [getJobs])
+    const fetchJobs = async () => {
+      const joblist = await getJobs()
+      setJobs(joblist)
+    }
+    fetchJobs()
+  }, [jobs])
 
   const handleAddJob = () => {
     setForm({

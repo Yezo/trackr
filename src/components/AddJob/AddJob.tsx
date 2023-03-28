@@ -45,7 +45,6 @@ export default function AddJob({
     //Check if there are any fields that are empty, if not, submit and close modal
     let checkEmpty = Object.values(form).filter((item) => item.length <= 0)
     if (checkEmpty.length === 0 && !companyAlreadyExists) {
-      setJobs([...jobs, form])
       saveJobs([...jobs, form])
       setForm({
         id: uuidv4(),
