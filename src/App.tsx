@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import "./App.css"
 import { Card } from "react-bootstrap"
+import EmptyMessage from "./utils/EmptyMessage"
 
 function App() {
   const [showAddJob, setShowAddJob] = useState(false)
@@ -117,15 +118,31 @@ function App() {
   return (
     <div className="app-container">
       <div className="container app-container">
-        <Button
-          className="btn-primary"
-          onClick={() => {
-            setShowAddJob(!showAddJob)
-            setValidated(false)
-          }}
-        >
-          Add
-        </Button>
+        <nav className="nav-wrapper">
+          <h1 className="nav-logo-text">Trackr</h1>
+          <Button
+            className="btn-primary btn-add "
+            onClick={() => {
+              setShowAddJob(!showAddJob)
+              setValidated(false)
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </Button>
+        </nav>
 
         {showAddJob && (
           <Modal show={showAddJob} onHide={() => setShowAddJob(false)}>
@@ -336,52 +353,33 @@ function App() {
           </Modal>
         )}
 
-        {jobs.length > 0 ? (
-          jobs.map(({ id, position, company, location, remote, status }) => (
-            <Card style={{ width: "18rem" }}>
-              <Card.Body>
-                <Card.Title>{position}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">{company}</Card.Subtitle>
-                <Card.Text>
-                  {location} {remote} {status}
-                </Card.Text>
+        <main className={`${jobs.length > 0 ? "main-wrapper" : "message-wrapper"}`}>
+          {jobs.length > 0 ? (
+            <div className="card-wrapper">
+              {jobs.map(({ id, position, company, location, remote, status }) => (
+                <Card style={{ width: "18rem" }}>
+                  <Card.Body>
+                    <Card.Title>{position}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">{company}</Card.Subtitle>
+                    <Card.Text>
+                      {location} {remote} {status}
+                    </Card.Text>
 
-                <Button className="btn-primary" onClick={() => handleEditJob(id)}>
-                  Edit
-                </Button>
-                <Button className="btn-primary" onClick={() => handleDeleteJob(id)}>
-                  Delete
-                </Button>
-              </Card.Body>
-            </Card>
-          ))
-        ) : (
-          <EmptyWarningMessage />
-        )}
+                    <Button className="btn-primary" onClick={() => handleEditJob(id)}>
+                      Edit
+                    </Button>
+                    <Button className="btn-primary" onClick={() => handleDeleteJob(id)}>
+                      Delete
+                    </Button>
+                  </Card.Body>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <EmptyMessage />
+          )}
+        </main>
       </div>
-    </div>
-  )
-}
-
-const EmptyWarningMessage = () => {
-  return (
-    <div className="warning-message">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M18 6H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h13l4-3.5L18 6Z"></path>
-        <path d="M12 13v8"></path>
-        <path d="M12 3v3"></path>
-      </svg>
-      <p>It appears you have no job applications, try adding one.</p>
     </div>
   )
 }
