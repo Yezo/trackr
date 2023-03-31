@@ -120,8 +120,8 @@ function App() {
   }
 
   return (
-    <div className="app-container">
-      <div className="container app-container">
+    <div className="app-wrapper">
+      <div className="app-container">
         <nav className="nav-wrapper">
           <h1 className="nav-logo-text">Trackr</h1>
           <Button
