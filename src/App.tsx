@@ -8,6 +8,9 @@ import Modal from "react-bootstrap/Modal"
 import "./App.css"
 import { Card } from "react-bootstrap"
 import EmptyMessage from "./utils/EmptyMessage"
+import AddJobForm from "./components/AddJob/AddJobform"
+import { EditListingType } from "./types/EditListingType"
+import EditJobForm from "./components/EditJob/EditJobForm"
 
 function App() {
   const [showAddJob, setShowAddJob] = useState(false)
@@ -15,7 +18,7 @@ function App() {
   const [jobs, setJobs] = useState<IJobListing[]>([])
   const formref = useRef(null)
   const [validated, setValidated] = useState(false)
-  const [edit, setEdit] = useState({
+  const [edit, setEdit] = useState<EditListingType>({
     id: "",
     position: "",
     company: "",
@@ -145,212 +148,25 @@ function App() {
         </nav>
 
         {showAddJob && (
-          <Modal show={showAddJob} onHide={() => setShowAddJob(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Add a job listing</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="container">
-                <Form onSubmit={handleSubmit} noValidate ref={formref} validated={validated}>
-                  <Form.Group className="form-group" controlId="position">
-                    <Form.Label>Job Position *</Form.Label>
-                    <Form.Control
-                      type="text"
-                      size="sm"
-                      placeholder="e.g: Front-end Engineer..."
-                      required
-                      name="position"
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="form-group" controlId="company">
-                    <Form.Label>Company *</Form.Label>
-                    <Form.Control
-                      type="text"
-                      size="sm"
-                      placeholder="e.g: Facebook..."
-                      required
-                      name="company"
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="form-group" controlId="location">
-                    <Form.Label>Location *</Form.Label>
-                    <Form.Control
-                      type="text"
-                      size="sm"
-                      placeholder="e.g: Canada..."
-                      required
-                      name="location"
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="form-group" controlId="remote">
-                    <Form.Label>Remote</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
-                      size="sm"
-                      required
-                      name="remote"
-                    >
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                      <option value="Hybrid">Hybrid</option>
-                    </Form.Select>
-                  </Form.Group>
-
-                  <Form.Group className="form-group" controlId="status">
-                    <Form.Label>Status</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
-                      size="sm"
-                      required
-                      name="status"
-                    >
-                      <option value="Pending">Pending</option>
-                      <option value="Rejected">Rejected</option>
-                      <option value="Accepted">Accepted</option>
-                    </Form.Select>
-                  </Form.Group>
-                  <div className="form-footer">
-                    <Button variant="secondary" onClick={() => setShowAddJob(false)}>
-                      Close
-                    </Button>
-                    <Button variant="primary" type="submit">
-                      Submit
-                    </Button>
-                  </div>
-                </Form>
-              </div>
-            </Modal.Body>
-          </Modal>
+          <AddJobForm
+            showAddJob={showAddJob}
+            setShowAddJob={setShowAddJob}
+            handleSubmit={handleSubmit}
+            formref={formref}
+            validated={validated}
+          ></AddJobForm>
         )}
 
         {showEditJob && (
-          <Modal show={showEditJob} onHide={() => setShowEditJob(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Edit a job listing</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="container">
-                <Form onSubmit={handleEditSubmit} noValidate ref={formref} validated={validated}>
-                  <Form.Group className="form-group" controlId="position">
-                    <Form.Label>Job Position *</Form.Label>
-                    <Form.Control
-                      type="text"
-                      size="sm"
-                      placeholder="e.g: Front-end Engineer..."
-                      required
-                      name="position"
-                      value={edit.position}
-                      onChange={(e) =>
-                        setEdit((prevState) => {
-                          return {
-                            ...prevState,
-                            position: e.target.value,
-                          }
-                        })
-                      }
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="form-group" controlId="company">
-                    <Form.Label>Company *</Form.Label>
-                    <Form.Control
-                      type="text"
-                      size="sm"
-                      placeholder="e.g: Facebook..."
-                      required
-                      name="company"
-                      value={edit.company}
-                      onChange={(e) =>
-                        setEdit((prevState) => {
-                          return {
-                            ...prevState,
-                            company: e.target.value,
-                          }
-                        })
-                      }
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="form-group" controlId="location">
-                    <Form.Label>Location *</Form.Label>
-                    <Form.Control
-                      type="text"
-                      size="sm"
-                      placeholder="e.g: Canada..."
-                      required
-                      name="location"
-                      value={edit.location}
-                      onChange={(e) =>
-                        setEdit((prevState) => {
-                          return {
-                            ...prevState,
-                            location: e.target.value,
-                          }
-                        })
-                      }
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="form-group" controlId="remote">
-                    <Form.Label>Remote</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
-                      size="sm"
-                      required
-                      name="remote"
-                      value={edit.remote}
-                      onChange={(e) =>
-                        setEdit((prevState) => {
-                          return {
-                            ...prevState,
-                            remote: e.target.value,
-                          }
-                        })
-                      }
-                    >
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                      <option value="Hybrid">Hybrid</option>
-                    </Form.Select>
-                  </Form.Group>
-
-                  <Form.Group className="form-group" controlId="status">
-                    <Form.Label>Status</Form.Label>
-                    <Form.Select
-                      aria-label="Default select example"
-                      size="sm"
-                      required
-                      name="status"
-                      value={edit.status}
-                      onChange={(e) =>
-                        setEdit((prevState) => {
-                          return {
-                            ...prevState,
-                            status: e.target.value,
-                          }
-                        })
-                      }
-                    >
-                      <option value="Pending">Pending</option>
-                      <option value="Rejected">Rejected</option>
-                      <option value="Accepted">Accepted</option>
-                    </Form.Select>
-                  </Form.Group>
-                  <div className="form-footer">
-                    <Button variant="secondary" onClick={() => setShowEditJob(false)}>
-                      Close
-                    </Button>
-                    <Button variant="primary" type="submit">
-                      Submit
-                    </Button>
-                  </div>
-                </Form>
-              </div>
-            </Modal.Body>
-          </Modal>
+          <EditJobForm
+            showEditJob={showEditJob}
+            setShowEditJob={setShowEditJob}
+            handleEditSubmit={handleEditSubmit}
+            formref={formref}
+            validated={validated}
+            edit={edit}
+            setEdit={setEdit}
+          ></EditJobForm>
         )}
 
         <main className={`${jobs.length > 0 ? "main-wrapper" : "message-wrapper"}`}>
