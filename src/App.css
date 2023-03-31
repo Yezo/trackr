@@ -43,3 +43,16 @@
 .btn {
   border-radius: 5rem;
 }
+
+.statistics-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  min-width: 100%;
+}
+
+.heading-title {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  min-width: 100%;
+}

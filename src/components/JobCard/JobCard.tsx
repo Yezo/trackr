@@ -12,7 +12,7 @@ export default function JobCard({ jobs, handleEditJob, handleDeleteJob }: Props)
   return (
     <div className="card-wrapper">
       {jobs.map(({ id, position, company, location, remote, status }) => (
-        <Card style={{ width: "18rem" }}>
+        <Card style={{ width: "18rem" }} className="card-job">
           <Card.Body>
             <Card.Title>{position}</Card.Title>
             <Card.Subtitle className="mb-2 text-muted">{company}</Card.Subtitle>

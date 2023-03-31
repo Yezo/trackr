@@ -3,7 +3,7 @@ import { IJobListing } from "./types/JobListingType"
 import { getJobs, saveJobs } from "./storage/Storage"
 import { EditListingType } from "./types/EditListingType"
 import { v4 as uuidv4 } from "uuid"
-
+import Dropdown from "react-bootstrap/Dropdown"
 import Button from "react-bootstrap/Button"
 import EmptyMessage from "./utils/EmptyMessage"
 import AddJobForm from "./components/AddJob/AddJobForm"
@@ -11,6 +11,7 @@ import EditJobForm from "./components/EditJob/EditJobForm"
 import JobCard from "./components/JobCard/JobCard"
 
 import "./App.css"
+import { Card } from "react-bootstrap"
 
 function App() {
   const [showAddJob, setShowAddJob] = useState(false)
@@ -158,11 +159,47 @@ function App() {
 
         <main className={`${jobs.length > 0 ? "main-wrapper" : "message-wrapper"}`}>
           {jobs.length > 0 ? (
-            <JobCard
-              jobs={jobs}
-              handleEditJob={handleEditJob}
-              handleDeleteJob={handleDeleteJob}
-            ></JobCard>
+            <>
+              <h2 className="heading-title">Statistics</h2>
+              <div className="statistics-wrapper">
+                <Card style={{ width: "9.5rem", backgroundColor: "#DAF0DF" }}>
+                  <Card.Body>
+                    <Card.Title>{jobs.length}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">Job Applications</Card.Subtitle>
+                    <Card.Text></Card.Text>
+                  </Card.Body>
+                </Card>
+                <Card style={{ width: "9.5rem", backgroundColor: "#DADCF0" }}>
+                  <Card.Body>
+                    <Card.Title>
+                      {jobs.filter((item) => item.status === "Pending").length}
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">Pending</Card.Subtitle>
+                    <Card.Text></Card.Text>
+                  </Card.Body>
+                </Card>
+                <Card style={{ width: "9.5rem", backgroundColor: "#F0E2DA" }}>
+                  <Card.Body>
+                    <Card.Title>
+                      {jobs.filter((item) => item.status === "Rejected").length}
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">Rejected</Card.Subtitle>
+                    <Card.Text></Card.Text>
+                  </Card.Body>
+                </Card>
+              </div>
+            </>
+          ) : null}
+
+          {jobs.length > 0 ? (
+            <>
+              <h2 className="heading-title">Applications</h2>
+              <JobCard
+                jobs={jobs}
+                handleEditJob={handleEditJob}
+                handleDeleteJob={handleDeleteJob}
+              ></JobCard>
+            </>
           ) : (
             <EmptyMessage />
           )}
