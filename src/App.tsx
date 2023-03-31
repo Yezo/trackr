@@ -1,23 +1,23 @@
 import { useEffect, useRef, useState } from "react"
 import { IJobListing } from "./types/JobListingType"
 import { getJobs, saveJobs } from "./storage/Storage"
-import { v4 as uuidv4 } from "uuid"
-import Form from "react-bootstrap/Form"
-import Button from "react-bootstrap/Button"
-import Modal from "react-bootstrap/Modal"
-import "./App.css"
-import { Card } from "react-bootstrap"
-import EmptyMessage from "./utils/EmptyMessage"
-import AddJobForm from "./components/AddJob/AddJobform"
 import { EditListingType } from "./types/EditListingType"
+import { v4 as uuidv4 } from "uuid"
+
+import Button from "react-bootstrap/Button"
+import EmptyMessage from "./utils/EmptyMessage"
+import AddJobForm from "./components/AddJob/AddJobForm"
 import EditJobForm from "./components/EditJob/EditJobForm"
+import JobCard from "./components/JobCard/JobCard"
+
+import "./App.css"
 
 function App() {
   const [showAddJob, setShowAddJob] = useState(false)
   const [showEditJob, setShowEditJob] = useState(false)
-  const [jobs, setJobs] = useState<IJobListing[]>([])
-  const formref = useRef(null)
   const [validated, setValidated] = useState(false)
+  const formref = useRef(null)
+  const [jobs, setJobs] = useState<IJobListing[]>([])
   const [edit, setEdit] = useState<EditListingType>({
     id: "",
     position: "",
@@ -130,20 +130,7 @@ function App() {
               setValidated(false)
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
+            <CreateButtonSVG />
           </Button>
         </nav>
 
@@ -171,26 +158,11 @@ function App() {
 
         <main className={`${jobs.length > 0 ? "main-wrapper" : "message-wrapper"}`}>
           {jobs.length > 0 ? (
-            <div className="card-wrapper">
-              {jobs.map(({ id, position, company, location, remote, status }) => (
-                <Card style={{ width: "18rem" }}>
-                  <Card.Body>
-                    <Card.Title>{position}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{company}</Card.Subtitle>
-                    <Card.Text>
-                      {location} {remote} {status}
-                    </Card.Text>
-
-                    <Button className="btn-primary" onClick={() => handleEditJob(id)}>
-                      Edit
-                    </Button>
-                    <Button className="btn-primary" onClick={() => handleDeleteJob(id)}>
-                      Delete
-                    </Button>
-                  </Card.Body>
-                </Card>
-              ))}
-            </div>
+            <JobCard
+              jobs={jobs}
+              handleEditJob={handleEditJob}
+              handleDeleteJob={handleDeleteJob}
+            ></JobCard>
           ) : (
             <EmptyMessage />
           )}
@@ -201,3 +173,22 @@ function App() {
 }
 
 export default App
+
+const CreateButtonSVG = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+  )
+}
