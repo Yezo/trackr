@@ -7,13 +7,17 @@
 .card-job {
   min-width: 100%;
 }
-
+.card-content-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
 .card-title {
   font-size: 1.5rem;
 }
 
 .btn-test {
   margin-right: 0.5rem;
+  border-radius: 2rem;
 }
 
 .btn-extra {
@@ -21,7 +25,7 @@
   padding: 0.3rem 0.8rem;
   justify-content: center;
   align-items: center;
-  background-color: black;
+  background-color: #1e1e1e;
   border-radius: 2rem;
   margin: 0.2rem;
   font-size: 0.7rem;
@@ -29,18 +33,47 @@
   user-select: none;
 }
 
-.card {
-  max-width: 10rem;
+.btn-group {
+  display: flex;
+  justify-content: flex-end;
+
+  flex-grow: 0;
+  max-height: 50%;
 }
 
+.btn-edit,
+.btn-remove {
+  padding: 0.75rem;
+  border-radius: 0.2rem;
+  margin: 0.2rem;
+  font-size: 1rem;
+  color: white;
+  user-select: none;
+  outline: none;
+  appearance: none;
+  border: none;
+}
+
+.btn-edit {
+  background-color: #8e8e8e;
+}
+.btn-edit:hover {
+  background-color: #6c757d;
+}
+.btn-remove {
+  background-color: #dc3545;
+}
+.btn-remove:hover {
+  background-color: #bb2d3b;
+}
 /* @media only screen and (min-width: 768px) {
-  .card-job {
-    min-width: 80%;
+  .card {
+    min-width: 26rem;
   }
 }
 
 @media only screen and (min-width: 1024px) {
-  .card-job {
-    min-width: 75%;
+  .card {
+    min-width: 32rem;
   }
 } */

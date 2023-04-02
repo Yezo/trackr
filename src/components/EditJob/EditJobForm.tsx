@@ -106,8 +106,8 @@ export default function EditJobForm({
                   })
                 }
               >
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
+                <option value="Remote">Remote</option>
+                <option value="On-site">On-site</option>
                 <option value="Hybrid">Hybrid</option>
               </Form.Select>
             </Form.Group>

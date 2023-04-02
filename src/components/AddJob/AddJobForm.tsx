@@ -1,5 +1,5 @@
-import React from "react"
 import { Modal, Form, Button } from "react-bootstrap"
+import "./AddJobForm.css"
 
 type Props = {
   showAddJob: boolean
@@ -60,8 +60,8 @@ export default function AddJobForm({
             <Form.Group className="form-group" controlId="remote">
               <Form.Label>Remote</Form.Label>
               <Form.Select aria-label="Default select example" size="sm" required name="remote">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
+                <option value="Remote">Remote</option>
+                <option value="On-site">On-site</option>
                 <option value="Hybrid">Hybrid</option>
               </Form.Select>
             </Form.Group>
@@ -75,10 +75,10 @@ export default function AddJobForm({
               </Form.Select>
             </Form.Group>
             <div className="form-footer">
-              <Button variant="secondary" onClick={() => setShowAddJob(false)}>
+              <Button variant="secondary" className="btn-test" onClick={() => setShowAddJob(false)}>
                 Close
               </Button>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" className="btn-test" type="submit">
                 Submit
               </Button>
             </div>

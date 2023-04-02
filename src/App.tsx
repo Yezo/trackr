@@ -3,7 +3,7 @@ import { IJobListing } from "./types/JobListingType"
 import { getJobs, saveJobs } from "./storage/Storage"
 import { EditListingType } from "./types/EditListingType"
 import { v4 as uuidv4 } from "uuid"
-import Dropdown from "react-bootstrap/Dropdown"
+
 import Button from "react-bootstrap/Button"
 import EmptyMessage from "./utils/EmptyMessage"
 import AddJobForm from "./components/AddJob/AddJobForm"
@@ -17,6 +17,7 @@ function App() {
   const [showAddJob, setShowAddJob] = useState(false)
   const [showEditJob, setShowEditJob] = useState(false)
   const [validated, setValidated] = useState(false)
+
   const formref = useRef(null)
   const [jobs, setJobs] = useState<IJobListing[]>([])
   const [edit, setEdit] = useState<EditListingType>({
@@ -24,7 +25,7 @@ function App() {
     position: "",
     company: "",
     location: "",
-    remote: "Yes",
+    remote: "Remote",
     status: "Pending",
   })
 
